@@ -27,15 +27,5 @@ waiter:
     mov a, h
     jmp loop
     
-    .org 0x25
-delay:
-    mvi l, 255
-_d2:
-    mvi a, 255
-    dec a
-    jnz _d2
-    
-    dec l
-    mvi a, l
     
 

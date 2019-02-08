@@ -1951,6 +1951,34 @@ asmCall({command: 'assemble', src: sourceCode}, function(result) {
             console.log(line);
 
         }
+        
+        if (result.mem.length < 256) {
+            console.log("Intel HEX:");
+
+            function gethex(num) {
+                var a = Number(num).toString(16);
+                if (a.length < 2) a = '0' + a;
+                return a.toUpperCase();
+            }
+        
+            var ihex = ':' + gethex(result.mem.length) + gethex(Math.floor(startAddr / 256)) + gethex(startAddr % 256) + '00';
+            var checksum = 0;
+
+            for (var i = 0; i < result.mem.length; i++) {
+                ihex += gethex(result.mem[i]);
+                checksum = (checksum + result.mem[i]) % 256;
+            }
+        
+            checksum = -checksum;
+            while (checksum < 0) {
+                checksum += 256;
+            }
+
+            ihex += gethex(checksum);
+            console.log(ihex);
+        } else {
+            console.log('skipping intel  hex gen');
+        }
 
     });
 

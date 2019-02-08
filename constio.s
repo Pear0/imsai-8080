@@ -1,0 +1,6 @@
+
+.org 0
+    mvi a, 0x24
+    out 0xFF
+
+
